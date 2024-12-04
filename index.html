@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Kythorian Chronicles (TKC)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    /* Global Styling */
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #1c1c1e;
+      color: #f1f1f1;
+    }
+    h1, h2, h3, h4 {
+      color: #e0aaff;
+    }
+    a {
+      color: #e0aaff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Title Animation */
+    #title-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #100f3a, #33265e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    #title-container h1 {
+      font-size: 3.5rem;
+      font-weight: bold;
+      color: #fff;
+      animation: fadeOut 4s ease-out forwards;
+    }
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    /* Sidebar Styling */
+    #sidebar {
+      width: 300px;
+      background: #2c2c34;
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+      border-right: 1px solid #444;
+      display: flex;
+      flex-direction: column;
+      z-index: 998;
+    }
+    #sidebar h2 {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #444;
+      margin: 0;
+    }
+    .toc-link {
+      display: block;
+      padding: 15px 20px;
+      border-bottom: 1px solid #444;
+      text-decoration: none;
+      color: #ddd;
+    }
+    .toc-link:hover {
+      background: #444;
+    }
+
+    /* Main Content Styling */
+    #main-content {
+      margin-left: 300px;
+      padding: 40px;
+      line-height: 1.6;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+
+    /* Speech Controls */
+    #speech-controls {
+      position: fixed;
+      bottom: 20px;
+      left: 10px;
+      background: #2c2c34;
+      padding: 15px;
+      border: 1px solid #444;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 999;
+    }
+    #speech-controls button {
+      background: #e0aaff;
+      border: none;
+      padding: 10px 15px;
+      color: #000;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    #speech-controls button:hover {
+      background: #c783ff;
+    }
+
+    /* Toggle Sidebar Button */
+#toggle-sidebar {
+  position: absolute;
+  bottom: 20px; /* Position near the bottom of the sidebar */
+  left: 20px; /* Adjusted to keep it aligned with the sidebar */
+  z-index: 100;
+  background: #e0aaff;
+  color: #000;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+#toggle-sidebar:hover {
+  background: #c783ff;
+}
+
+
+    /* Crawl Screen Animation */
+    #crawl-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #e0aaff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 998;
+    }
+    #crawl-text {
+      font-size: 1.5rem;
+      text-shadow: 0 0 10px #e0aaff, 0 0 20px #e0aaff;
+      line-height: 2;
+      animation: crawl 120s linear forwards;
+    }
+    @keyframes crawl {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+    #hamburger {
+      position: fixed;
+      top: 20px;
+      left: 285px;
+      z-index: 1000;
+      background: #e0aaff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    #hamburger:hover {
+      background: #c783ff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Title Animation -->
+  <div id="title-container">
+    <h1>The Kythorian Chronicles</h1>
+  </div>
+
+  <!-- Crawl Screen -->
+  <div id="crawl-screen" style="display: none;">
+    <div id="crawl-text">
+      <p>The Kythorian Chronicles is a tale of adventure, sacrifice, and hope...</p>
+      <p>Aster's journey began on a small agricultural colony...</p>
+      <p>But the challenges ahead would push him to the limits...</p>
+    </div>
+  </div>
+
+  <!-- Hamburger Icon -->
+  <button id="hamburger" onclick="toggleSidebar()" style="display: none;">
+    &#9776;
+  </button>
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <h2>Table of Contents</h2>
+    <a href="#chapter1" class="toc-link">Chapter 1: A Quiet Life</a>
+    <a href="#chapter2" class="toc-link">Chapter 2: The Raven Strikes</a>
+    <a href="#chapter3" class="toc-link">Chapter 3: Arrival in the Draco System</a>
+    <a href="#chapter4" class="toc-link">Chapter 4: Rising Hope</a>
+    <a href="#chapter5" class="toc-link">Chapter 5: Fragile Peace</a>
+    <a href="#credits" class="toc-link">Credits</a>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main-content">
+    <h1>The Kythorian Chronicles</h1>
+    <h4>A Folktale of adventure, sacrifice, and hope.</h4>
+    <h3>----------------</h3>
+
+    <!-- Chapter 1 -->
+    <section id="chapter1">
+      <h2>Chapter 1: A Quiet Life</h2>
+      <p>Aster grew up on the quiet agricultural colony of Haven’s Reach, where days passed with the steady rhythm of farming and community gatherings. The settlement was far removed from the chaos of galactic politics, shielded by its isolation. Aster, a curious and inventive boy, often found himself staring at the night sky, captivated by the distant stars. He dreamed of adventures beyond the colony, yearning to know what lay in the vastness of space.</p>
+      <p>Despite his wild imagination, life on Haven’s Reach was practical. Aster’s parents encouraged him to focus on his studies, helping with repairs around the farm and learning the value of hard work. It was a simple life, and though Aster loved his family deeply, he couldn’t shake the feeling that he was destined for something more. His thirst for knowledge led him to the settlement’s tiny library, where he devoured old books on engineering, physics, and interstellar history.</p>
+      <p>Everything changed the day Aster found a discarded Earth Federation computer in the colony’s junkyard. Though ancient and broken, it became his obsession. He spent months scavenging parts from old machinery, repairing the device piece by piece. When it finally powered on, Aster was flooded with excitement. He began teaching himself programming, unlocking his natural talent for technology. The computer became his gateway to a world of endless possibilities.</p>
+    </section>
+
+    <!-- Chapter 2 -->
+    <section id="chapter2">
+      <h2>Chapter 2: The Raven Strikes</h2>
+      <p>Without warning, sleek black ships descended from the skies, their ominous silhouettes blocking out the sun. The Raven Corps deployed its soldiers—raven-like humanoids clad in dark, militarized armor—who marched through the fields, rounding up the colony’s inhabitants with ruthless efficiency. Aster’s peaceful world was shattered in an instant.</p>
+      <p>The invaders, led by the terrifying Raven DeCrow, announced that Haven’s Reach now belonged to the 4th Reich. Resources were seized, and those who resisted were executed. Aster’s parents fought valiantly to protect their home, but they were overpowered. In the chaos, Aster’s father slipped him a small artifact—a mysterious piece of ancient Archon technology—and told him to run.</p>
+      <p>Tears streaming down his face, Aster fled into the surrounding wilderness with a small group of survivors. From a distant hill, he watched as his home burned. That moment etched a determination into his soul: he would fight back, no matter the cost. The artifact his father had given him began to glow faintly, as if reacting to his resolve.</p>
+    </section>
+
+    <!-- Chapter 3 -->
+    <section id="chapter3">
+      <h2>Chapter 3: Arrival in the Draco System</h2>
+      <p>The Draco System was unlike anything Aster had ever imagined. The system was a chaotic mix of lawless space stations, mining colonies, and war-torn planets. It was a haven for mercenaries, smugglers, and those who sought refuge from the Reich’s reach. Aster and the survivors landed on the fringe world of Draco Prime, hoping to find allies in their fight against the Raven Corps.</p>
+      <p>Draco Prime was a harsh and unforgiving place. Its cities were filled with crime and corruption, and survival required cunning and strength. Aster’s tech skills quickly proved invaluable as he hacked into local networks to gather information and secure resources for the group. Despite his young age, he began earning the respect of the hardened inhabitants of Draco Prime.</p>
+      <p>It was here that Aster first heard of General McGehee, the leader of a powerful faction known as the Iron Vanguard. McGehee was a former Earth Federation general who had turned rogue, commanding a well-armed paramilitary force. Though his methods were ruthless, he was one of the few capable of standing against the Raven Corps in the Draco System.</p>
+    </section>
+
+    <!-- Chapter 4 -->
+    <section id="chapter4">
+      <h2>Chapter 4: Rising Hope</h2>
+      <p>With McGehee's resources and Aster's strategic brilliance, the resistance began to make significant gains. Together, they launched daring strikes against key Raven Corps outposts across the Draco System. Aster’s ability to hack into enemy systems allowed the Iron Vanguard to gain valuable intelligence, enabling them to anticipate and counter enemy movements. These victories inspired hope among the oppressed colonies of Draco, who began to rally behind the alliance.</p>
+      <p>One critical victory came during the Battle of Keth’s Crater, where Aster devised a plan to disable the Raven Corps’ orbital bombardment platform. Using the stolen artifact as an energy disruptor, Aster led a team of Iron Vanguard soldiers on a high-stakes mission to infiltrate the platform. The operation succeeded, forcing the Raven Corps to retreat from Draco Prime for the first time in years.</p>
+      <p>Despite their success, Aster struggled with the moral complexities of war. McGehee’s willingness to use brutal tactics, such as targeting civilian supply lines to cripple the Raven Corps, conflicted with Aster’s desire to minimize harm. The young leader’s growing influence within the resistance began to challenge McGehee’s authority, creating a rift between them.</p>
+    </section>
+
+    <!-- Chapter 5 -->
+    <section id="chapter5">
+      <h2>Chapter 5: Fragile Peace</h2>
+      <p>The liberation of Draco Prime brought a fragile sense of peace to the system. The colonies celebrated their newfound freedom, and Aster was hailed as a hero. However, he remained haunted by the cost of their victory—the lives lost, the alliances forged out of necessity rather than trust, and the unresolved threat of the Reich.</p>
+      <p>McGehee used the opportunity to consolidate his power, declaring the Iron Vanguard the de facto rulers of the Draco System. While many welcomed his leadership, others, including Aster, saw the dangers of replacing one form of tyranny with another. Their alliance grew increasingly strained as McGehee’s ambitions became clear.</p>
+      <p>Aster, now physically and emotionally scarred, began to retreat from the public eye. He focused on studying the artifact, which he believed held the key to defeating the Reich once and for all. The visions it projected became more frequent, showing him glimpses of a celestial war that seemed eerily connected to his own struggles.</p>
+    </section>
+
+    <!-- Credits -->
+    <section id="credits">
+      <h2>Credits</h2>
+      <p>Authors: *Asterisk* and *Wambo*</p>
+      <p>Special thanks to the creative team and the readers who believe in this story.</p>
+    </section>
+  </div>
+
+  <!-- Speech Controls -->
+  <div id="speech-controls">
+    <button onclick="startSpeech()">Start Reading</button>
+    <button onclick="stopSpeech()">Stop Reading</button>
+  </div>
+
+  <script>
+    // Updated JavaScript for consistency and dynamic content loading in the crawl screen
+  document.addEventListener("DOMContentLoaded", function () {
+    // Fetch the full content from the main content section
+    const mainContent = document.getElementById("main-content").innerText;
+    const crawlText = document.getElementById("crawl-text");
+
+    // Set the crawl screen's content to the entire book content
+    crawlText.innerHTML = mainContent.replace(/\n/g, "<br>");
+
+    setTimeout(function () {
+      document.getElementById("title-container").style.display = "none";
+      document.getElementById("crawl-screen").style.display = "flex";
+      setTimeout(function () {
+        document.getElementById("crawl-screen").style.display = "none";
+        document.getElementById("hamburger").style.display = "block";
+      }, 000); // Match crawl animation duration
+    }, 4000); // Duration of title fade-out
+  });
+
+  // Sidebar toggle
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.style.display === 'none' || sidebar.style.display === '') {
+      sidebar.style.display = 'block';
+    } else {
+      sidebar.style.display = 'none';
+    }
+  }
+
+  // Text-to-Speech
+  let speechSynthesisUtterance;
+  function startSpeech() {
+    const content = document.getElementById('main-content').innerText;
+    speechSynthesisUtterance = new SpeechSynthesisUtterance(content);
+    window.speechSynthesis.speak(speechSynthesisUtterance);
+  }
+
+  function stopSpeech() {
+    if (speechSynthesisUtterance) {
+      window.speechSynthesis.cancel();
+    }
+  }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
